@@ -1,0 +1,196 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\usepackage[options ]{algorithm2e}
+\usepackage{braket}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath,amssymb}
+
+\theoremstyle{definition}
+%\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+
+
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+\vspace*{0.7cm}
+{\centering
+\large
+{ \Large\bf \textbf{Zero Knowledge Proofs and Applications}}\\
+\vspace{2cm}
+%\bf{A}\\
+\bf{Report}\\
+\vspace{0.25cm}
+\vspace{0.1cm}
+
+\it
+by \\
+\vspace{.5cm}
+\rm
+{\large \bf {Abhinav Vannala}}\\
+{\large \bf {Kriti Bapnad}}\\
+{\large \bf {Shubham Gupta}}\\
+{\large \bf {Simsarul Vengasseri}}\\
+
+
+\vspace{5cm}
+
+%\includegraphics[width=\linewidth]{Image Location}
+% \includegraphics[scale=1.5]{pics/infinity.png}
+
+\vspace{1cm}
+Infinity Labs, UST Global\\\Large{13/08/2019}\\
+}
+
+\pagebreak
+\end{titlepage}
+
+
+
+
+\newpage
+\begin{abstract}
+TBD
+\end{abstract}
+
+\newpage
+\tableofcontents
+
+\newpage
+\section{Introduction}
+\paragraph*{}
+\textbf A zero knowledge proof is a cryptographic method by which a prover can prove to a verifier that there exists some information with the prover without revealing the information. A zero knowledge proof may consist of a trusted setup followed proof generation and verification. If the trusted setup is compromised, the zero knowledge proofs are not valid.
+\\
+\\
+A typical zero knowledge proof consist of a prover key and a verifier key. The prover can generate a proof with the help of prover key. The verifier verifies the proof with the help of verifier key. This entire zero knowledge protocol can be either interactive or non-interactive. An interactive zero knowledge proof will consist of more interactions between prover and verifier inorder for the verifier to get convinced with high probability.
+\\
+\\
+Any zero knowledge proof must satisfy the soundness, completeness and zero knowledgeness criteria. The completeness of an interactive zero knowledge proof increases with the increase in the number of interactions. As the number of interactions increases, the probability of completeness increases exponentially. Interactive zero knowledge proofs are typically less computationally expensive compared to non-interactive zero knowledge proofs.
+
+
+
+% \includegraphics[scale=0.47]{pics/amd.png}
+
+\newpage
+
+
+
+
+\section{Zero Knowledge Proofs}
+\paragraph*{}
+\textbf This section will consist of a study on various interactive and non-interactive zero knowledge proofs.
+
+
+
+\subsection{Fiege-Fiat-Shamir Method}
+\paragraph*{}
+\text This is an interactive zero knowledge proof using modular arithmetic. The probability of verification of this zero knowledge proof to fail decreases exponentially with the increase in the number of interactions between the prover and the verifier.
+
+\subsection{Zk-SNARKs}
+\paragraph*{}
+\text Zk-SNARKs refers to zero knowledge succinct non-interactive arguments of knowledge. This works using the principles of elliptical curve pairing. This is a non-interactive zero knowledge proof with an intial trusted setup.
+
+\subsection{Bullet Proofs}
+\paragraph*{}
+\text Bullet proofs are zero knowledge proofs that does not require intial trusted setup. They have short proof size and take less memory space. However, the verification time grows linearly with the size of knowlege.
+
+
+
+\subsection{STARKS}
+\paragraph*{}
+\text This comes with an added improvement in terms of scalabilty to bullet proofs. They have larger proof size. This works on the basis of non-collision based hash functions. The verification time grows on logarithmically with the knowledge size and hence scalable.
+
+
+
+
+\newpage
+
+
+\section{Building applications using Zk-SNARKs}
+\paragraph*{}
+\textbf This section consist of ways to build an applications using Zk-SNARKs. We consider a game called MasterMind for applying this concept. In this board game, there are two players: a codebreaker and a codemaster. The codemaster sets a secret combination of coloured pegs (e.g. red, red, green, blue), and the codebreaker has to guess what the combination is. The players follow this sequence,
+\begin{enumerate}
+  \item Codebreaker makes a guess (e.g. YRGB)
+  \item Codemaster gives a clue (3 black, 0 white)
+  \item Repeat from (1) until the game ends, or the codebreaker runs out of turns.
+\end{enumerate}
+The clue is made of zero to four black or white pieces; each black piece means that there exists a peg in the guess which exactly matches a peg in the secret of the same colour and in the same position, while each white peg means that there exists a peg in the secret of the same colour but in a different location.
+\\
+\\
+Applied to the Mastermind board game, snarks could thereby prove that a clue about a secret combination of colours is correct, without revealing the secret itself.
+\\
+\\
+In real life, the physical setup of the gameboard prevents cheating, but this is not easy online, as a remote server or client could fraudulently manipulate the game state. Additionally, to simply hash the solution and reveal it at the end of the game is insufficient, since there is no way for the codebreaker to be sure, mid-game, that the codemaster is not cheating. In fact, mid-game clue verification is a step up above real-world gameplay, where the solution is always hidden from view.
+
+
+\newpage
+
+
+
+
+
+\section{Applications}
+\paragraph*{}
+\textbf In this section, various applications of zero knowledge proofs are studied as follows:
+\begin{enumerate}
+  \item Logging into website
+  \item Core identity
+  \item Price Discovery
+\end{enumerate}
+
+\subsection{Logging into website}
+\paragraph*{}
+\text Traditional methods use either of the following was to authenticate,
+\begin{enumerate}
+  \item Store username and password which is not good.
+  \item Basic password encryption which is also not good because it can be decrypted vary easily.
+  \item Hashing the credentials will be safer but still using rainbow table one can decode a hash back to original password.
+\end{enumerate}
+With the help of zero knowlege proofs we can create secure remote authentication mechanism by providing proof of password. In this case, the password is not shared with the website.
+
+
+\subsection{Core identity}
+\paragraph*{}
+\text Zero knowledge proofs can be used to create scalable identities. Users can create a core identity from which derived identities are created for various services and activities. Derived identities can be verified to have derived from core identity with the help of zero knowledge proofs. This makes the core identity protected even if a derived identity is compromised. \(\cite{second}\)
+
+\subsection{Price Discovery}
+\paragraph*{}
+\text Discovering the true price with the help of zero knowledge proofs.
+
+
+
+
+
+\section{Conclusion}
+\paragraph*{}
+\textbf TBD
+
+
+\newpage
+
+%Now make a Bibtex file with the same name but file extension should be .bib and save in the same folder where .tex file exist.
+\bibliographystyle{plain}
+%\bibliography{Bibtex filename without extension}
+\bibliography{Report}
+
+\end{document}
